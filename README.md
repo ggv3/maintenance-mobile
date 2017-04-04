@@ -1,9 +1,9 @@
-Vehicle Maintenance software
+#Vehicle Maintenance software
 
 Hybrid mobile application
 
 Technologies:
 
-	- HTML5
-	- JavaScript, Jquery
-	- CSS
+	HTML5
+	JavaScript, Jquery
+	CSS
