@@ -41,8 +41,9 @@
 		<div data-role="main" class="ui-content ui-body-a">
 			<p id="userId"></p>
             <p id="vehicleId"></p>
+            <p id="servicelog"></p>
             
-            <!-- Fetch the username from REST-->
+            <!-- Fetch the username from REST -->
             <script>
                 $(document).on("pagecreate", "#etusivu", function() {
                     fetchUser()
@@ -57,9 +58,9 @@
                     })
                 }
             </script>
+            <!-- Fetch all vehicles from one user from REST -->
             <script>
                 $(document).on("pagecreate", "#etusivu", function() {
-                    console.log("hello");
                     fetchUsersVehicles()        
                 });
                 function fetchUsersVehicles() {
@@ -69,10 +70,26 @@
                         timeout: 5000
                     }).done(function(data) {
                         var vehicles = data._embedded.vehicles[0];
-                        console.log(data);
                         for (i in data._embedded.vehicles) {
-                            console.log(i);
-                            $("#vehicleId").append("displayname: " + data._embedded.vehicles[i].displayname);
+                            $("#vehicleId").append("displayname: " + data._embedded.vehicles[i].displayname + "<br>");
+                        }
+                    })
+                }
+            </script>
+            <!-- Fetch all servicelogs for one vehicle from REST-->
+            <script>
+                $(document).on("pagecreate", "#etusivu", function() {
+                   fetchVehiclesServicelogs() 
+                });
+                function fetchVehiclesServicelogs() {
+                    $.ajax({
+                        url: "http://nikokaartinen.com:8080/vm-0.0.1-SNAPSHOT/vehicles/1/servicelog",
+                        datatype: "json",
+                        timeout: 5000
+                    }).done(function(data) {
+                        var servicelogs = data._embedded.servicelogs[0];
+                        for (i in data._embedded.servicelogs) {
+                            $("#servicelog").append("entry:" + data._embedded.servicelogs[i].entry + "<br>");
                         }
                     })
                 }
