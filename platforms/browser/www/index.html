@@ -34,12 +34,49 @@
 </head>
 
 <body>
-	<div data-role="page">
+	<div data-role="page" id="etusivu">
 		<div data-role="header">
 			<h1>Vehicle Maintenance</h1>
 		</div>
 		<div data-role="main" class="ui-content ui-body-a">
-			<p>Lorem ipsum</p>
+			<p id="userId"></p>
+            <p id="vehicleId"></p>
+            
+            <!-- Fetch the username from REST-->
+            <script>
+                $(document).on("pagecreate", "#etusivu", function() {
+                    fetchUser()
+                });
+                function fetchUser() {
+                    $.ajax({
+                        url: "http://nikokaartinen.com:8080/vm-0.0.1-SNAPSHOT/users/1",
+                        dataType: "json",
+                        timeout: 5000
+                    }).done(function(data) {
+                        $("#userId").text("Käyttäjänimi: " + data.username);
+                    })
+                }
+            </script>
+            <script>
+                $(document).on("pagecreate", "#etusivu", function() {
+                    console.log("hello");
+                    fetchUsersVehicles()        
+                });
+                function fetchUsersVehicles() {
+                    $.ajax({
+                        url: "http://nikokaartinen.com:8080/vm-0.0.1-SNAPSHOT/users/1/vehicles",
+                        datatype: "json",
+                        timeout: 5000
+                    }).done(function(data) {
+                        var vehicles = data._embedded.vehicles[0];
+                        console.log(data);
+                        for (i in data._embedded.vehicles) {
+                            console.log(i);
+                            $("#vehicleId").append("displayname: " + data._embedded.vehicles[i].displayname);
+                        }
+                    })
+                }
+            </script>
 		</div>
 		<div data-role="footer">
 			<h4>Kaamos Software</h4>
