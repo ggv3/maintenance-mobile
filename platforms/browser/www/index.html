@@ -27,8 +27,10 @@
     <meta name="msapplication-tap-highlight" content="no" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
 	<link rel="stylesheet" href="js/jquery.mobile-1.4.5.min.css" />
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="js/jquery-2.1.4.min.js"></script>
 	<script src="js/jquery.mobile-1.4.5.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <title>Vehicle Maintenance</title>
 </head>
@@ -39,10 +41,41 @@
 			<h1>Vehicle Maintenance</h1>
 		</div>
 		<div data-role="main" class="ui-content ui-body-a">
-			<p id="userId"></p>
-            <p id="vehicleId"></p>
-            <p id="servicelog"></p>
-            
+			<!-- <p id="userId"></p> -->
+			<!-- <p id="vehicleId"></p> ->
+			<!-- <p id="servicelog"></p> -->
+			<a href="#addVehicle" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all">Show popup</a>
+			<div data-role="popup" id="addVehicle" class="ui-content">
+				<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+				<form name="vehicle">
+					<label for="nimi">Nimi:</label>
+					<input type="text" name="nimi" id="nimi" value="">
+					<label for="totalKilometersDriven">Ajetut kilometrit:</label>
+					<input type="text" name="totalKilometersDriven" id="totalKilometersDriven" value="">
+					<label for="latestInspectionDate">Viimeisin katsastuspäivä:</label>
+					<input type="text" name="latestInspectionDate"id="latestInspectionDate">
+					<script>
+					$(document).ready(function() {
+						$("#latestInspectionDate").datepicker();
+					});
+					</script>
+					<label for="lastInspectionDate">Viimeinen katsastuspäivä:</label>
+					<input type="text" name="lastInspectionDate"id="lastInspectionDate">
+					<script>
+						$(document).ready(function(){
+							$("#lastInspectionDate").datepicker();
+						});
+					</script>
+					<label for="latestOilChange">Viimeisin öljynvaihto:</label>
+					<input type="text" name="latestOilChange" id="latestOilChange">
+					<script>
+						$(document).ready(function(){
+							$("#latestOilChange").datepicker();
+						});
+					</script>
+					<input type="submit" value="Tallenna">
+				</form>
+			</div>
             <!-- Fetch the username from REST -->
             <script>
                 $(document).on("pagecreate", "#etusivu", function() {
@@ -94,6 +127,27 @@
                     })
                 }
             </script>
+			<script>$(document).on("pagecreate", function() {
+            $(document).on("pagecontainershow", function(){
+                $(".ui-content").height(getRealContentHeight());
+            })
+
+            $(window).on("resize orientationchange", function(){
+                $(".ui-content").height(getRealContentHeight());
+            })
+           
+            function getRealContentHeight() {
+                var activePage = $.mobile.pageContainer.pagecontainer("getActivePage"),
+                screen = $.mobile.getScreenHeight(),
+                header = $(".ui-header").hasClass("ui-header-fixed") ? $(".ui-header").outerHeight() - 1 : $(".ui-header").outerHeight(),
+                footer = $(".ui-footer").hasClass("ui-footer-fixed") ? $(".ui-footer").outerHeight() - 1 : $(".ui-footer").outerHeight(),
+                contentMargins = $(".ui-content", activePage).outerHeight() - $(".ui-content", activePage).height();
+                var contentHeight = screen - header - footer - contentMargins;   
+               
+                return contentHeight;
+            }
+        });
+        </script>
 		</div>
 		<div data-role="footer">
 			<h4>Kaamos Software</h4>
