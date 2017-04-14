@@ -44,6 +44,11 @@
 			<!-- <p id="userId"></p> -->
 			<!-- <p id="vehicleId"></p> ->
 			<!-- <p id="servicelog"></p> -->
+			<table id="vehicleList" border="1">
+			</table>
+			<br>
+			<table id="servicelogList" border="1">
+			</table>
 			<a href="#addVehicle" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all">Show popup</a>
 			<div data-role="popup" id="addVehicle" class="ui-content">
 				<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
@@ -55,9 +60,9 @@
 					<label for="latestInspectionDate">Viimeisin katsastuspäivä:</label>
 					<input type="text" name="latestInspectionDate"id="latestInspectionDate">
 					<script>
-					$(document).ready(function() {
-						$("#latestInspectionDate").datepicker();
-					});
+						$(document).ready(function() {
+							$("#latestInspectionDate").datepicker();
+						});
 					</script>
 					<label for="lastInspectionDate">Viimeinen katsastuspäivä:</label>
 					<input type="text" name="lastInspectionDate"id="lastInspectionDate">
@@ -104,7 +109,33 @@
                     }).done(function(data) {
                         var vehicles = data._embedded.vehicles[0];
                         for (i in data._embedded.vehicles) {
-                            $("#vehicleId").append("displayname: " + data._embedded.vehicles[i].displayname + "<br>");
+                            //$("#vehicleId").append("displayname: " + data._embedded.vehicles[i].displayname + "<br>");
+							vehicle = {
+								id: i,
+								type: data._embedded.vehicles[i].type,
+								displayname: data._embedded.vehicles[i].displayname,
+								totalkilometersdriven: data._embedded.vehicles[i].totalkilometersdriven,
+								latestinspectiondate: data._embedded.vehicles[i].latestinspectiondate,
+								lastinspectiondate: data._embedded.vehicles[i].lastinspectiondate,
+							};
+							var table = document.getElementById("vehicleList");
+							var row = table.insertRow(i);
+							var cell1 = row.insertCell(0);
+							var cell2 = row.insertCell(1);
+							var cell3 = row.insertCell(2);
+							var cell4 = row.insertCell(3);
+							var cell5 = row.insertCell(4);
+							var cell6 = row.insertCell(5);
+							cell1.innerHTML = vehicle.id,
+							cell2.innerHTML = vehicle.displayname,
+							cell3.innerHTML = vehicle.totalkilometersdriven + " km",
+							cell4.innerHTML = vehicle.latestinspectiondate;
+							cell5.innerHTML = vehicle.lastinspectiondate;
+							if (vehicle.type == 1) {
+								cell6.innerHTML = "Car"
+							} else if (vehicle.type == 2) {
+								cell6.innerHTML ="Motorcycle"
+							}
                         }
                     })
                 }
@@ -116,13 +147,26 @@
                 });
                 function fetchVehiclesServicelogs() {
                     $.ajax({
-                        url: "http://nikokaartinen.com:8080/vm-0.0.1-SNAPSHOT/vehicles/1/servicelog",
+                        url: "http://nikokaartinen.com:8080/vm-0.0.1-SNAPSHOT/vehicles/4/servicelog",
                         datatype: "json",
                         timeout: 5000
                     }).done(function(data) {
                         var servicelogs = data._embedded.servicelogs[0];
                         for (i in data._embedded.servicelogs) {
                             $("#servicelog").append("entry:" + data._embedded.servicelogs[i].entry + "<br>");
+							servicelog = {
+								id: i,
+								entry: data._embedded.servicelogs[i].entry,
+								date: data._embedded.servicelogs[i].date,
+							};
+							var table = document.getElementById("servicelogList");
+							var row = table.insertRow(i);
+							var cell1 = row.insertCell(0);
+							var cell2 = row.insertCell(1);
+							var cell3 = row.insertCell(2);
+							cell1.innerHTML = servicelog.id,
+							cell2.innerHTML = servicelog.entry,
+							cell3.innerHTML = servicelog.date;
                         }
                     })
                 }
