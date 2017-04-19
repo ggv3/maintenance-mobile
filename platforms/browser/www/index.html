@@ -41,62 +41,11 @@
 			<h1>Vehicle Maintenance</h1>
 		</div>
 		<div data-role="main" class="ui-content ui-body-a">
-			<!-- <p id="userId"></p> -->
-			<!-- <p id="vehicleId"></p> ->
-			<!-- <p id="servicelog"></p> -->
+			<p id="userId"></p>
 			<table id="vehicleList" border="1">
 			</table>
-			<br>
-			<table id="servicelogList" border="1">
-			</table>
-			<a href="#addVehicle" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all">Show popup</a>
-			<div data-role="popup" id="addVehicle" class="ui-content">
-				<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-				<form name="vehicle">
-					<label for="nimi">Nimi:</label>
-					<input type="text" name="nimi" id="nimi" value="">
-					<label for="totalKilometersDriven">Ajetut kilometrit:</label>
-					<input type="text" name="totalKilometersDriven" id="totalKilometersDriven" value="">
-					<label for="latestInspectionDate">Viimeisin katsastuspäivä:</label>
-					<input type="text" name="latestInspectionDate"id="latestInspectionDate">
-					<script>
-						$(document).ready(function() {
-							$("#latestInspectionDate").datepicker();
-						});
-					</script>
-					<label for="lastInspectionDate">Viimeinen katsastuspäivä:</label>
-					<input type="text" name="lastInspectionDate"id="lastInspectionDate">
-					<script>
-						$(document).ready(function(){
-							$("#lastInspectionDate").datepicker();
-						});
-					</script>
-					<label for="latestOilChange">Viimeisin öljynvaihto:</label>
-					<input type="text" name="latestOilChange" id="latestOilChange">
-					<script>
-						$(document).ready(function(){
-							$("#latestOilChange").datepicker();
-						});
-					</script>
-					<input type="submit" value="Tallenna">
-				</form>
-			</div>
-            <!-- Fetch the username from REST -->
-            <script>
-                $(document).on("pagecreate", "#etusivu", function() {
-                    fetchUser()
-                });
-                function fetchUser() {
-                    $.ajax({
-                        url: "http://nikokaartinen.com:8080/vm-0.0.1-SNAPSHOT/users/1",
-                        dataType: "json",
-                        timeout: 5000
-                    }).done(function(data) {
-                        $("#userId").text("Käyttäjänimi: " + data.username);
-                    })
-                }
-            </script>
-            <!-- Fetch all vehicles from one user from REST -->
+			
+			<!-- Fetch all vehicles from one user from REST to vehicleList-->
             <script>
                 $(document).on("pagecreate", "#etusivu", function() {
                     fetchUsersVehicles()        
@@ -118,6 +67,7 @@
 								latestinspectiondate: data._embedded.vehicles[i].latestinspectiondate,
 								lastinspectiondate: data._embedded.vehicles[i].lastinspectiondate,
 							};
+							
 							var table = document.getElementById("vehicleList");
 							var row = table.insertRow(i);
 							var cell1 = row.insertCell(0);
@@ -127,7 +77,7 @@
 							var cell5 = row.insertCell(4);
 							var cell6 = row.insertCell(5);
 							cell1.innerHTML = vehicle.id,
-							cell2.innerHTML = vehicle.displayname,
+							cell2.innerHTML = "<a href='#" + vehicle.id +"'>" + vehicle.displayname + "</a>",
 							cell3.innerHTML = vehicle.totalkilometersdriven + " km",
 							cell4.innerHTML = vehicle.latestinspectiondate;
 							cell5.innerHTML = vehicle.lastinspectiondate;
@@ -140,7 +90,80 @@
                     })
                 }
             </script>
-            <!-- Fetch all servicelogs for one vehicle from REST-->
+			<br>
+			<a href="#testi">Linkki</a>
+			
+			<!-- Popup for adding a new vehicle -->
+			<a href="#addVehicle" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all">Lisää ajoneuvo</a>
+			<div data-role="popup" id="addVehicle" class="ui-content">
+				<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+				<form name="vehicle">
+					<label for="nimi">Nimi:</label>
+					<input type="text" name="nimi" id="nimi" value="">
+					
+					<label for="totalKilometersDriven">Ajetut kilometrit:</label>
+					<input type="text" name="totalKilometersDriven" id="totalKilometersDriven" value="">
+					
+					<label for="latestInspectionDate">Viimeisin katsastuspäivä:</label>
+					<input type="text" name="latestInspectionDate"id="latestInspectionDate">
+					
+					<script>
+						$(document).ready(function() {
+							$("#latestInspectionDate").datepicker();
+						});
+					</script>
+					
+					<label for="lastInspectionDate">Viimeinen katsastuspäivä:</label>
+					<input type="text" name="lastInspectionDate"id="lastInspectionDate">
+					
+					<script>
+						$(document).ready(function(){
+							$("#lastInspectionDate").datepicker();
+						});
+					</script>
+					
+					<label for="latestOilChange">Viimeisin öljynvaihto:</label>
+					<input type="text" name="latestOilChange" id="latestOilChange">
+					
+					<script>
+						$(document).ready(function(){
+							$("#latestOilChange").datepicker();
+						});
+					</script>
+					
+					<input type="submit" value="Tallenna">
+				</form>
+			</div>
+            <!-- Fetch the username from REST -->
+            <script>
+                $(document).on("pagecreate", "#etusivu", function() {
+                    fetchUser()
+                });
+                function fetchUser() {
+                    $.ajax({
+                        url: "http://nikokaartinen.com:8080/vm-0.0.1-SNAPSHOT/users/1",
+                        dataType: "json",
+                        timeout: 5000
+                    }).done(function(data) {
+                        $("#userId").text("Käyttäjänimi: " + data.username);
+                    })
+                }
+            </script>
+    
+		</div>
+		<div data-role="footer">
+			<h4>Kaamos Software</h4>
+		</div>
+	</div>
+	<div data-role="page" id="testi"> <!-- TODO Dynamic id-->
+		<div data-role="header">
+			<h1>Vehicle Maintenance - Ajoneuvon tiedot</h1>
+		</div>
+		<div data-role="main" class="ui-content ui-body-a">
+			<table id="servicelogList" border="1">
+			</table>
+			
+			 <!-- Fetch all servicelogs for one vehicle from REST-->
             <script>
                 $(document).on("pagecreate", "#etusivu", function() {
                    fetchVehiclesServicelogs() 
@@ -171,8 +194,21 @@
                     })
                 }
             </script>
-			<script>$(document).on("pagecreate", function() {
-            $(document).on("pagecontainershow", function(){
+			<a href="#etusivu">Etusivulle</a>
+		</div>
+		<div data-role="footer">
+			<h4>Kaamos Software</h4>
+		</div>
+	</div>
+	<script>
+		$(document).on("pagecreate", function() {
+			$("#testilinkki").append(vehicle.id);
+		});
+	</script>
+	
+	<script>
+		$(document).on("pagecreate", function() {
+          	$(document).on("pagecontainershow", function(){
                 $(".ui-content").height(getRealContentHeight());
             })
 
@@ -191,12 +227,7 @@
                 return contentHeight;
             }
         });
-        </script>
-		</div>
-		<div data-role="footer">
-			<h4>Kaamos Software</h4>
-		</div>
-	</div>
+    </script>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript"></script>
