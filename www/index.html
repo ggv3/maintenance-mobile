@@ -44,11 +44,11 @@
 			<p id="userId"></p>
 			<table id="vehicleList" border="1">
 			</table>
-			
+
 			<!-- Fetch all vehicles from one user from REST to vehicleList-->
             <script>
                 $(document).on("pagecreate", "#etusivu", function() {
-                    fetchUsersVehicles()        
+                    fetchUsersVehicles()
                 });
                 function fetchUsersVehicles() {
                     $.ajax({
@@ -60,14 +60,14 @@
                         for (i in data._embedded.vehicles) {
                             //$("#vehicleId").append("displayname: " + data._embedded.vehicles[i].displayname + "<br>");
 							vehicle = {
-								id: i,
+								id: data_embedded.vehicles[i].id,
 								type: data._embedded.vehicles[i].type,
 								displayname: data._embedded.vehicles[i].displayname,
 								totalkilometersdriven: data._embedded.vehicles[i].totalkilometersdriven,
 								latestinspectiondate: data._embedded.vehicles[i].latestinspectiondate,
 								lastinspectiondate: data._embedded.vehicles[i].lastinspectiondate,
 							};
-							
+
 							var table = document.getElementById("vehicleList");
 							var row = table.insertRow(i);
 							var cell1 = row.insertCell(0);
@@ -91,8 +91,8 @@
                 }
             </script>
 			<br>
-			<a href="#testi">Linkki</a>
-			
+			<a href="#chosenVehicle">Linkki</a>
+
 			<!-- Popup for adding a new vehicle -->
 			<a href="#addVehicle" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all">Lisää ajoneuvo</a>
 			<div data-role="popup" id="addVehicle" class="ui-content">
@@ -100,13 +100,13 @@
 				<form name="vehicle">
 					<label for="nimi">Nimi:</label>
 					<input type="text" name="nimi" id="nimi" value="">
-					
+
 					<label for="totalKilometersDriven">Ajetut kilometrit:</label>
 					<input type="text" name="totalKilometersDriven" id="totalKilometersDriven" value="">
-					
+
 					<label for="latestInspectionDate">Viimeisin katsastuspäivä:</label>
 					<input type="text" name="latestInspectionDate"id="latestInspectionDate">
-					
+
 					<script>
 						$(document).ready(function() {
 							$("#latestInspectionDate").datepicker();
@@ -115,22 +115,22 @@
 					
 					<label for="lastInspectionDate">Viimeinen katsastuspäivä:</label>
 					<input type="text" name="lastInspectionDate"id="lastInspectionDate">
-					
+
 					<script>
 						$(document).ready(function(){
 							$("#lastInspectionDate").datepicker();
 						});
 					</script>
-					
+
 					<label for="latestOilChange">Viimeisin öljynvaihto:</label>
 					<input type="text" name="latestOilChange" id="latestOilChange">
-					
+
 					<script>
 						$(document).ready(function(){
 							$("#latestOilChange").datepicker();
 						});
 					</script>
-					
+
 					<input type="submit" value="Tallenna">
 				</form>
 			</div>
@@ -149,24 +149,24 @@
                     })
                 }
             </script>
-    
+
 		</div>
 		<div data-role="footer">
 			<h4>Kaamos Software</h4>
 		</div>
 	</div>
-	<div data-role="page" id="testi"> <!-- TODO Dynamic id-->
+	<div data-role="page" id="chosenVehicle"> <!-- TODO Dynamic id-->
 		<div data-role="header">
 			<h1>Vehicle Maintenance - Ajoneuvon tiedot</h1>
 		</div>
 		<div data-role="main" class="ui-content ui-body-a">
 			<table id="servicelogList" border="1">
 			</table>
-			
+
 			 <!-- Fetch all servicelogs for one vehicle from REST-->
             <script>
                 $(document).on("pagecreate", "#etusivu", function() {
-                   fetchVehiclesServicelogs() 
+                   fetchVehiclesServicelogs()
                 });
                 function fetchVehiclesServicelogs() {
                     $.ajax({
@@ -205,7 +205,7 @@
 			$("#testilinkki").append(vehicle.id);
 		});
 	</script>
-	
+
 	<script>
 		$(document).on("pagecreate", function() {
           	$(document).on("pagecontainershow", function(){
@@ -215,15 +215,15 @@
             $(window).on("resize orientationchange", function(){
                 $(".ui-content").height(getRealContentHeight());
             })
-           
+
             function getRealContentHeight() {
                 var activePage = $.mobile.pageContainer.pagecontainer("getActivePage"),
                 screen = $.mobile.getScreenHeight(),
                 header = $(".ui-header").hasClass("ui-header-fixed") ? $(".ui-header").outerHeight() - 1 : $(".ui-header").outerHeight(),
                 footer = $(".ui-footer").hasClass("ui-footer-fixed") ? $(".ui-footer").outerHeight() - 1 : $(".ui-footer").outerHeight(),
                 contentMargins = $(".ui-content", activePage).outerHeight() - $(".ui-content", activePage).height();
-                var contentHeight = screen - header - footer - contentMargins;   
-               
+                var contentHeight = screen - header - footer - contentMargins;
+
                 return contentHeight;
             }
         });
