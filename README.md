@@ -1,9 +1,9 @@
-## Vehicle Maintenance software
+# Vehicle Maintenance software
 
-Hybrid mobile application
+Hybrid mobile application made with Phonegap and Apache Cordova
 
-Technologies:
+## Technologies:
 
-	HTML5
-	JavaScript, Jquery
-	CSS
+* HTML5
+* JavaScript, Jquery
+* CSS
