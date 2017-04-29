@@ -53,9 +53,12 @@
 							data: JSON.stringify ({type: "1", displayname: "Ford Fiesta", totalkilometersdriven: "140000", latestinspectiondate: "2017-01-01", lastinspectiondate: "2017-01-01", latestoilchange: "2017-01-01", user: "http://nikokaartinen.com:8080/vm-0.0.1-SNAPSHOT/users/1"}),
 							success: function(data) { alert('data: ' + data); },
 							contentType: "application/json",
-							dataType: 'json'
-						});
-					})
+							dataType: 'json',
+						}).done(function(data) {
+							fetchUsersVehicles()
+						})
+					});
+						
 				</script>
 				
 				<!-- Fetch all vehicles from one user from REST to vehicleList-->
@@ -100,16 +103,36 @@
 			</div>
 			<div data-role="main" class="ui-content ui-body-a">
 				<input type="button" id="print" value="Button">
+				<div id="add2">
+				
+				</div>
 					<script>
-			
-			$("#print").click(function() {
+						$("#print").click(function() {
+						var selectedVehicleId = localStorage.getItem('_selectedVehicleId');
+						var selectedVehicleDisplayname = localStorage.getItem('_selectedVehicleDisplayname');
+						console.log(selectedVehicleId);
+						console.log(selectedVehicleDisplayname);
+						console.log("Pöö!");
+					});
+				</script>
+				<script>
+				$(document).on("pagecreate", "#vehicleInfo", function() {
 					var selectedVehicleId = localStorage.getItem('_selectedVehicleId');
 					var selectedVehicleDisplayname = localStorage.getItem('_selectedVehicleDisplayname');
 					console.log(selectedVehicleId);
 					console.log(selectedVehicleDisplayname);
-					console.log("Pöö!");
-			});
-			</script>
+					$("#vehicleHeader").append(selectedVehicleDisplayname);
+				});
+				</script>
+				
+				<script>
+				$(document).on("pagecontainerchange", "#vehicleInfo", function() {
+					var selectedVehicleId = localStorage.getItem('_selectedVehicleId');
+					var selectedVehicleDisplayname = localStorage.getItem('_selectedVehicleDisplayname');
+					console.log(selectedVehicleId);
+					console.log(selectedVehicleDisplayname);
+				});
+				</script>
 				 <!-- Fetch all servicelogs for one vehicle from REST-->
 				<script>
 					$(document).on("pagecreate", "#etusivu", function() {
