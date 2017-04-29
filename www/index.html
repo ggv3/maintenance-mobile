@@ -102,35 +102,14 @@
 				<h1><p id="vehicleHeader"></p></h1>
 			</div>
 			<div data-role="main" class="ui-content ui-body-a">
-				<input type="button" id="print" value="Button">
-				<div id="add2">
-				
-				</div>
-					<script>
-						$("#print").click(function() {
-						var selectedVehicleId = localStorage.getItem('_selectedVehicleId');
-						var selectedVehicleDisplayname = localStorage.getItem('_selectedVehicleDisplayname');
-						console.log(selectedVehicleId);
-						console.log(selectedVehicleDisplayname);
-						console.log("Pöö!");
-					});
-				</script>
+
 				<script>
-				$(document).on("pagecreate", "#vehicleInfo", function() {
+				$(document).on("pageshow", "#vehicleInfo", function() {
 					var selectedVehicleId = localStorage.getItem('_selectedVehicleId');
 					var selectedVehicleDisplayname = localStorage.getItem('_selectedVehicleDisplayname');
 					console.log(selectedVehicleId);
 					console.log(selectedVehicleDisplayname);
-					$("#vehicleHeader").append(selectedVehicleDisplayname);
-				});
-				</script>
-				
-				<script>
-				$(document).on("pagecontainerchange", "#vehicleInfo", function() {
-					var selectedVehicleId = localStorage.getItem('_selectedVehicleId');
-					var selectedVehicleDisplayname = localStorage.getItem('_selectedVehicleDisplayname');
-					console.log(selectedVehicleId);
-					console.log(selectedVehicleDisplayname);
+					$("#vehicleHeader").text(selectedVehicleDisplayname);
 				});
 				</script>
 				 <!-- Fetch all servicelogs for one vehicle from REST-->
