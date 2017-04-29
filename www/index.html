@@ -43,6 +43,20 @@
 			<div data-role="main" class="ui-content ui-body-a">
 				<div id="vehicleList">	
 				</div>
+				<button id="add" class="ui-btn ui-btn-inline ui-icon-plus ui-btn-icon-notext ui-corner-all ui-shadow ui-nodisc-icon ui-alt-icon"></button>
+				
+				<script>
+					$("#add").click(function() {
+						$.ajax({
+							url: "http://nikokaartinen.com:8080/vm-0.0.1-SNAPSHOT/vehicles",
+							type: "POST",
+							data: JSON.stringify ({type: "1", displayname: "Ford Fiesta", totalkilometersdriven: "140000", latestinspectiondate: "2017-01-01", lastinspectiondate: "2017-01-01", latestoilchange: "2017-01-01", user: "http://nikokaartinen.com:8080/vm-0.0.1-SNAPSHOT/users/1"}),
+							success: function(data) { alert('data: ' + data); },
+							contentType: "application/json",
+							dataType: 'json'
+						});
+					})
+				</script>
 				
 				<!-- Fetch all vehicles from one user from REST to vehicleList-->
 				<script>
@@ -62,7 +76,6 @@
 									displayname: data._embedded.vehicles[i].displayname,
 								};
 								$("#vehicleList").append("<a id='" + vehicle.id + "' value='" + vehicle.displayname + "'href='#vehicleInfo' class='ui-btn ui-btn-inline ui-btn-b ui-corner-all ui-mini'>" + vehicle.displayname + "</a> <br>");
-								console.log(vehicle.id)
 							}
 							// Selecting a Vehicle puts the id into a variable
 							$("[href]").click(function() {
@@ -88,13 +101,13 @@
 			<div data-role="main" class="ui-content ui-body-a">
 				<input type="button" id="print" value="Button">
 					<script>
-			$(document).ready(function() {
-				$("#print").click(function() {
+			
+			$("#print").click(function() {
 					var selectedVehicleId = localStorage.getItem('_selectedVehicleId');
 					var selectedVehicleDisplayname = localStorage.getItem('_selectedVehicleDisplayname');
 					console.log(selectedVehicleId);
 					console.log(selectedVehicleDisplayname);
-				});
+					console.log("Pöö!");
 			});
 			</script>
 				 <!-- Fetch all servicelogs for one vehicle from REST-->
