@@ -43,7 +43,7 @@
 			</div>
 			<div data-role="main" class="ui-content ui-body-a" data-theme="b">
 				<div id="vehicleList"></div>
-				<a id="emptyFields" href="#addVehicle" data-position-to="window" class="ui-btn ui-btn-b ui-btn-inline ui-icon-plus ui-btn-icon-notext ui-corner-all ui-shadow ui-nodisc-icon">Add</a>
+				<a id="emptyFields" href="#addVehicle" data-position-to="window" class="ui-btn ui-btn-b ui-btn-inline ui-icon-plus ui-btn-icon-notext ui-corner-all ui-shadow ui-nodisc-icon" style="width: 30px !important; height: 30px !important;">Add</a>
 				
 				<!-- Empty the input fields on #addVehicle-->
 				<script>
@@ -172,7 +172,7 @@
 		<div data-role="page" id="vehicleInfo">
 			<div data-role="header">
 				<a href="#etusivu" class="ui-btn ui-btn-inline ui-icon-home ui-btn-icon-notext ui-corner-all ui-shadow ui-nodisc-icon ui-alt-icon">Black icon</a>
-				<h1><p id="vehicleHeader"></p></h1>
+				<h1><p>Vehicle details</p></h1>
 			</div>
 			<div data-role="main" class="ui-content ui-body-a">
 
@@ -182,7 +182,6 @@
 					var selectedVehicleDisplayname = localStorage.getItem('_selectedVehicleDisplayname');
 					console.log(selectedVehicleId);
 					console.log(selectedVehicleDisplayname);
-					$("#vehicleHeader").text(selectedVehicleDisplayname);
 				});
 				</script>
 				 <!-- Fetch all servicelogs for one vehicle from REST-->
