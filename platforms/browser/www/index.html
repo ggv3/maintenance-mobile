@@ -22,16 +22,18 @@
 <html>
 
 	<head>
-		<meta charset="utf-8" />
-		<meta name="format-detection" content="telephone=no" />
-		<meta name="msapplication-tap-highlight" content="no" />
-		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
-		<link rel="stylesheet" href="js/jquery.mobile-1.4.5.min.css" />
-		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-		<script src="js/jquery-2.1.4.min.js"></script>
-		<script src="js/jquery.mobile-1.4.5.min.js"></script>
-		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-		<link rel="stylesheet" type="text/css" href="css/index.css" />
+		<meta charset="utf-8"/>
+		<meta name="format-detection" content="telephone=no"/>
+		<meta name="msapplication-tap-highlight" content="no"/>
+		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width"/>
+		<link rel="stylesheet" href="css/jquery.mobile.icons.min.css"/>
+		<script src="js/jquery.min.js"></script>
+		<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css"/>
+		<script src="js/jquery.mobile.min.js"></script>
+		<link rel="stylesheet" href="css/jqm-datebox-1.4.5.min.css"/>
+		<script type="text/javascript" src="js/jqm-datebox-1.4.5.core.min.js"></script>
+		<script type="text/javascript" src="js/jqm-datebox-1.4.5.mode.calbox.min.js"></script>
+		<script type="text/javascript" src="js/jqm-datebox-1.4.5.mode.datebox.min.js"></script>
 		<title>Vehicle Maintenance</title>
 	</head>
 
@@ -116,31 +118,14 @@
 					<input type="text" name="totalKilometersDriven" id="totalKilometersDriven" data-theme="a">
 						
 					<label for="latestInspectionDate">Latest inspection date:</label>
-					<input type="text" name="latestInspectionDate"id="latestInspectionDate" data-theme="a">
-						
-					<script>
-						$(document).ready(function() {
-							$("#latestInspectionDate").datepicker({ dateFormat: 'yy-mm-dd' });
-						});
-					</script>
-						
+					<input type="text" name="latestInspectionDate" data-role="datebox" data-options='{"mode":"calbox", "overrideDateFormat":"%Y-%m-%d"}'>
+										
 					<label for="lastInspectionDate">Last inspection date:</label>
-					<input type="text" name="lastInspectionDate"id="lastInspectionDate">
-						
-					<script>
-						$(document).ready(function() {
-							$("#lastInspectionDate").datepicker({ dateFormat: 'yy-mm-dd' });
-						});
-					</script>
+					<input type="text" name="lastInspectionDate" data-role="datebox" data-options='{"mode":"calbox", "overrideDateFormat":"%Y-%m-%d"}'>
 						
 					<label for="latestOilChange">Latest oil change:</label>
-					<input type="text" name="latestOilChange" id="latestOilChange">
-						
-					<script>
-						$(document).ready(function() {
-							$("#latestOilChange").datepicker({ dateFormat: 'yy-mm-dd' });
-						});
-					</script>
+					<input type="text" name="latestOilChange" data-role="datebox" data-options='{"mode":"calbox", "overrideDateFormat":"%Y-%m-%d"}'>
+					
 					<button id="add" class="ui-btn ui-btn-inline ui-icon-plus ui-corner-all ui-shadow ui-btn-icon-left ui-btn-b">Add</button>
 				</div>
 				
