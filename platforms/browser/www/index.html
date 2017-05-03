@@ -52,9 +52,9 @@
 					$("#emptyFields").click(function() {
 						$("#displayName").val(null);
 						$("#totalKilometersDriven").val(null);
-						$("#latestInspectionDate").val(null);
-						$("#lastInspectionDate").val(null);
-						$("#latestOilChange").val(null);
+						$("#latestInspectionDate").val("");
+						$("#lastInspectionDate").val("");
+						$("#latestOilChange").val("");
 					});
 				</script>
 				
@@ -85,6 +85,8 @@
 								var selectedVehicleDisplayname = $(this).attr("value");
 								localStorage.setItem('_selectedVehicleId', selectedVehicleId);
 								localStorage.setItem('_selectedVehicleDisplayname', selectedVehicleDisplayname);
+								console.log(selectedVehicleId);
+								console.log(selectedVehicleDisplayname)
 							});
 						})
 					}
@@ -118,13 +120,13 @@
 					<input type="text" name="totalKilometersDriven" id="totalKilometersDriven" data-theme="a">
 						
 					<label for="latestInspectionDate">Latest inspection date:</label>
-					<input type="text" name="latestInspectionDate" data-role="datebox" data-options='{"mode":"calbox", "overrideDateFormat":"%Y-%m-%d"}'>
+					<input type="text" name="latestInspectionDate" id="latestInspectionDate" data-role="datebox" data-options='{"mode":"calbox", "overrideDateFormat":"%Y-%m-%d"}'>
 										
 					<label for="lastInspectionDate">Last inspection date:</label>
-					<input type="text" name="lastInspectionDate" data-role="datebox" data-options='{"mode":"calbox", "overrideDateFormat":"%Y-%m-%d"}'>
+					<input type="text" name="lastInspectionDate" id="lastInspectionDate" data-role="datebox" data-options='{"mode":"calbox", "overrideDateFormat":"%Y-%m-%d"}'>
 						
 					<label for="latestOilChange">Latest oil change:</label>
-					<input type="text" name="latestOilChange" data-role="datebox" data-options='{"mode":"calbox", "overrideDateFormat":"%Y-%m-%d"}'>
+					<input type="text" name="latestOilChange" id="latestOilChange" data-role="datebox" data-options='{"mode":"calbox", "overrideDateFormat":"%Y-%m-%d"}'>
 					
 					<button id="add" class="ui-btn ui-btn-inline ui-icon-plus ui-corner-all ui-shadow ui-btn-icon-left ui-btn-b">Add</button>
 				</div>
