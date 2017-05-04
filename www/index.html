@@ -41,7 +41,7 @@
 		<!-- Landing page -->
 		<div data-role="page" id="etusivu" data-theme="b">
 			<div data-role="header">
-				<h1>Vehicle Maintenance</h1>
+				<h2></h2>
 			</div>
 			<div data-role="main" class="ui-content ui-body-a" data-theme="b">
 				<div id="vehicleList"></div>
@@ -76,7 +76,7 @@
 									id: data._embedded.vehicles[i].id,
 									displayname: data._embedded.vehicles[i].displayname,
 								};
-								$("#vehicleList").append("<a id='" + vehicle.id + "' value='" + vehicle.displayname + "'href='#vehicleInfo' class='ui-btn ui-btn-inline ui-btn-b ui-corner-all'>" + vehicle.displayname + "</a> <br>");
+								$("#vehicleList").append("<a id='" + vehicle.id + "' value='" + vehicle.displayname + "'href='#vehicleInfo' class='ui-btn ui-btn-inline ui-btn-b ui-corner-all'>" + vehicle.displayname + "</a>");
 							}
 							
 							// Selecting a Vehicle puts the id into a variable and saves it to localStorage
@@ -85,8 +85,6 @@
 								var selectedVehicleDisplayname = $(this).attr("value");
 								localStorage.setItem('_selectedVehicleId', selectedVehicleId);
 								localStorage.setItem('_selectedVehicleDisplayname', selectedVehicleDisplayname);
-								console.log(selectedVehicleId);
-								console.log(selectedVehicleDisplayname)
 							});
 						})
 					}
@@ -94,7 +92,7 @@
 				<br>
 			</div>
 			<div data-role="footer" data-theme="b">
-				<h4>Kaamos Software</h4>
+				<h4>Kaamos</h4>
 			</div>
 		</div>
 		<!-- Add a new Vehicle -->
@@ -153,23 +151,55 @@
 				</script>
 			</div>
 			<div data-role="footer" data-theme="b">
-				<h4>Kaamos Software</h4>
+				<h4>Kaamos</h4>
 			</div>
 		</div>
-		<div data-role="page" id="vehicleInfo">
+		<div data-role="page" id="vehicleInfo" data-theme="b">
 			<div data-role="header">
-				<a href="#etusivu" class="ui-btn ui-btn-inline ui-icon-home ui-btn-icon-notext ui-corner-all ui-shadow ui-nodisc-icon ui-alt-icon">Black icon</a>
-				<h1><p>Vehicle details</p></h1>
+				<a href="#etusivu" class="ui-btn ui-btn-inline ui-icon-home ui-btn-icon-notext ui-corner-all ui-shadow ui-nodisc-icon ui-icon">Black icon</a>
+				<h2>Details</h2>
+				<a href="#logs" class="ui-btn ui-btn-inline ui-icon-bullets ui-btn-icon-notext ui-corner-all ui-shadow ui-nodisc-icon ui-icon">Black icon</a>
 			</div>
 			<div data-role="main" class="ui-content ui-body-a">
-
+				<button id="vehicleTitle" class="ui-btn ui-btn-inline ui-btn-b ui-corner-all"></button>
+	
+				<p><b>Driven kilometers:</b></p>
+				<p id="kilometers"></p>
+				<p><b>Latest inspection date:</b></p>
+				<p id="latestInspection"></p>
+				<p><b>Last inspection date:</b></p>
+				<p id="lastInspection"></p>
+				<p><b>Latest oil change date:</b></p>
+				<p id="latestOil"></p>
 				<script>
-				$(document).on("pageshow", "#vehicleInfo", function() {
-					var selectedVehicleId = localStorage.getItem('_selectedVehicleId');
-					var selectedVehicleDisplayname = localStorage.getItem('_selectedVehicleDisplayname');
-					console.log(selectedVehicleId);
-					console.log(selectedVehicleDisplayname);
-				});
+					$(document).on("pageshow", "#vehicleInfo", function() {
+						fetchVehicleInfo()
+					});
+
+					function fetchVehicleInfo() {
+						// Receive chosen vehicles id
+						var selectedVehicleId = localStorage.getItem('_selectedVehicleId');
+						var vehicleUrl = "http://nikokaartinen.com:8080/vm-0.0.1-SNAPSHOT/vehicles/" + selectedVehicleId;
+						console.log(vehicleUrl);
+						$.ajax({
+							url: vehicleUrl,
+						 	datatype: "json",
+							timeout: 5000
+						}).done(function(data) {
+							// Empty the values
+							$("#vehicleTitle").empty();
+							$("#kilometers").empty();
+							$("#latestInspection").empty();
+							$("#lastInspection").empty();
+							$("#latestOil").empty();
+							// Insert the values
+							$("#vehicleTitle").append(data.displayname);
+							$("#kilometers").append(data.totalkilometersdriven + " km");
+							$("#latestInspection").append(data.latestinspectiondate);
+							$("#lastInspection").append(data.lastinspectiondate);
+							$("#latestOil").append(data.latestoilchange);
+						}
+					)}
 				</script>
 				 <!-- Fetch all servicelogs for one vehicle from REST-->
 				<script>
@@ -207,7 +237,7 @@
 				
 			</div>
 		
-			<div data-role="footer">
+			<div data-role="footer" data-theme="b">
 				<h4>Kaamos Software</h4>
 			</div>
 		</div>
