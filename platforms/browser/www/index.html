@@ -49,16 +49,7 @@
 				<div id="vehicleList"></div>
 				<a id="emptyFields" href="#addVehicle" data-position-to="window" class="ui-btn ui-btn-b ui-btn-inline ui-icon-plus ui-btn-icon-notext ui-corner-all ui-shadow ui-nodisc-icon" style="width: 30px !important; height: 30px !important;">Add</a>
 				
-				<!-- Empty the input fields on #addVehicle-->
-				<script>
-					$("#emptyFields").click(function() {
-						$("#displayName").val(null);
-						$("#totalKilometersDriven").val(null);
-						$("#latestInspectionDate").val("");
-						$("#lastInspectionDate").val("");
-						$("#latestOilChange").val("");
-					});
-				</script>
+				
 				
 				<!-- Fetch all vehicles from one user from REST to vehicleList -->
 				<script>
@@ -87,6 +78,7 @@
 								var selectedVehicleDisplayname = $(this).attr("value");
 								localStorage.setItem('_selectedVehicleId', selectedVehicleId);
 								localStorage.setItem('_selectedVehicleDisplayname', selectedVehicleDisplayname);
+                                console.log("save " + selectedVehicleId);
 							});
 						})
 					}
@@ -147,7 +139,13 @@
 							contentType: "application/json",
 							dataType: "json",
 						}).done(function(data) {
-							$.mobile.changePage("#etusivu");
+                            // Empty the input fields on #addVehicle 
+                            $("#displayName").val(null);
+                            $("#totalKilometersDriven").val(null);
+                            $("#latestInspectionDate").val("");
+                            $("#lastInspectionDate").val("");
+                            $("#latestOilChange").val("");
+				            $.mobile.changePage("#etusivu");
 						})
 					});
 				</script>
@@ -160,7 +158,6 @@
 			<div data-role="header">
 				<a href="#etusivu" class="ui-btn ui-btn-inline ui-icon-home ui-btn-icon-notext ui-corner-all ui-shadow ui-nodisc-icon ui-icon">Black icon</a>
 				<h2>Details</h2>
-				<a href="#logs" class="ui-btn ui-btn-inline ui-icon-bullets ui-btn-icon-notext ui-corner-all ui-shadow ui-nodisc-icon ui-icon">Black icon</a>
 			</div>
 			<div data-role="main" class="ui-content ui-body-a">
 				<a href="#deletePopup" id="vehicleTitle" data-rel="popup" data-position-to="window" data-transition="pop" class="ui-btn ui-btn-inline ui-icon-delete ui-corner-all ui-shadow ui-btn-icon-right ui-btn-b"></a>
@@ -236,7 +233,7 @@
 					   fetchVehiclesServicelogs() 
 					});
 					function fetchVehiclesServicelogs() {
-						var selectedVehicle = localStorage.getItem('_selectedVehicle');
+						var selectedVehicleId = localStorage.getItem('_selectedVehicleId');
 						
 						$.ajax({
 							url: "http://nikokaartinen.com:8080/vm-0.0.1-SNAPSHOT/vehicles/4/servicelog",
@@ -262,6 +259,10 @@
 							}
 						})
 					}
+                    
+                    $("#vehicleInfo").on("swipeleft",function(){
+                        $.mobile.changePage("#logs");
+                    });
 				</script>
 				
 			</div>
@@ -270,6 +271,45 @@
 				<h4>Kaamos</h4>
 			</div>
 		</div>
+        
+        <div data-role="page" id="logs" data-theme="b">
+            <div data-role="header">
+                <a href="#vehicleInfo" class="ui-btn ui-btn-inline ui-icon-arrow-l ui-btn-icon-notext ui-corner-all ui-shadow ui-nodisc-icon ui-icon">Black icon</a>
+                <h2>Servicelogs</h2>
+            </div>
+            <div data-role="main" class="ui-content ui-body-a">
+                <div id="servicelogs"></div>  
+                <script> 
+                    $("#logs").on("swiperight", function() {
+                       $.mobile.changePage("#vehicleInfo"); 
+                    });
+                    
+                    $(document).on("pageshow", "#logs", function() {
+                        var selectedVehicleId = localStorage.getItem('_selectedVehicleId');
+                        console.log(selectedVehicleId);
+                        
+                        var logurl = "http://nikokaartinen.com:8080/vm-0.0.1-SNAPSHOT/vehicles/" + selectedVehicleId + "/servicelog";
+                        $.ajax({
+                            url: logurl,
+                            datatype: "json",
+                            timeout: 5000
+                        }).done(function(data) {
+                            var servicelogs = data._embedded.servicelogs[0];
+							for (i in data._embedded.servicelogs) { 
+                                console.log(data._embedded.servicelogs[i].date);
+                                console.log(data._embedded.servicelogs[i].entry);
+                                $("#servicelogs").append("<p>" + data._embedded.servicelogs[i].date + "</p>")
+                                $("#servicelogs").append("<p>" + data._embedded.servicelogs[i].entry + "</p>");
+                            }
+                        })
+                        
+                    });
+                </script>
+            </div>
+            <div data-role="footer" data-theme="b">
+                <h4>Kaamos</h4>
+            </div>
+        </div>
 		<script>
 			$(document).on("pagecreate", function() {
 				$(document).on("pagecontainershow", function(){
