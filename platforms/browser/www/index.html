@@ -84,7 +84,7 @@
 					<input type="text" name="lastInspectionDate" id="lastInspectionDate" data-role="datebox" data-options='{"mode":"calbox", "overrideDateFormat":"%Y-%m-%d"}'>					
 					<label for="latestOilChange">Latest oil change:</label>
 					<input type="text" name="latestOilChange" id="latestOilChange" data-role="datebox" data-options='{"mode":"calbox", "overrideDateFormat":"%Y-%m-%d"}'>	
-					<button id="add" class="ui-btn ui-btn-inline ui-icon-plus ui-corner-all ui-shadow ui-btn-icon-left ui-btn-b">Add</button>
+					<button id="addV" class="ui-btn ui-btn-inline ui-icon-plus ui-corner-all ui-shadow ui-btn-icon-left ui-btn-b">Add</button>
 				</div>	
 			</div>
 			
@@ -118,7 +118,7 @@
 				</div>					
 				<p><b>Driven kilometers:</b></p>
 				<p id="kilometers"></p>
-				<p><b>Latest inspection date:</b></p>
+				<p><b>Next inspection date:</b></p>
 				<p id="latestInspection"></p>
 				<p><b>Last inspection date:</b></p>
 				<p id="lastInspection"></p>
@@ -144,7 +144,33 @@
 			<!-- Body -->
 			<div data-role="main" class="ui-content ui-body-a">
 				<h3>Chosen vehicles Servicelogs</h3>
-				<div id="servicelogs"></div>  
+				<div id="servicelogs"></div>
+                <button id="addNew" data-position-to="window" class="ui-btn ui-btn-b ui-btn-inline ui-icon-plus ui-btn-icon-notext ui-corner-all ui-shadow ui-nodisc-icon" style="width: 30px !important; height: 30px !important;">Add</button>
+			</div>
+			
+			<!-- Footer -->
+			<div data-role="footer" data-theme="b">
+				<h4>Kaamos</h4>
+			</div>
+		</div>
+        
+        <!-- Add a new Servicelog -->
+        <div data-role="page" id="addServicelog" data-theme="b">
+			
+			<!-- Header -->
+			<div data-role="header">
+				<a href="#logs" class="ui-btn ui-btn-inline ui-icon-arrow-l ui-btn-icon-notext ui-corner-all ui-shadow ui-nodisc-icon ui-icon">Black icon</a>
+				<h2></h2>
+			</div>
+			
+			<!-- Body -->
+			<div data-role="main" class="ui-content ui-body-a">
+				<h2>Add a new Servicelog</h2>
+                <label for="date">Date:</label>
+				<input type="text" name="date" id="date" data-role="datebox" data-options='{"mode":"calbox", "overrideDateFormat":"%Y-%m-%d"}'>
+                <label for="entry">Entry:</label>
+                <textarea name="entry" id="entry"></textarea>
+                <button id="addL" class="ui-btn ui-btn-inline ui-icon-plus ui-corner-all ui-shadow ui-btn-icon-left ui-btn-b">Add</button>
 			</div>
 			
 			<!-- Footer -->
@@ -183,7 +209,7 @@
 			}
 			
 			// Code for adding a Vehicle
-			$("#add").click(function() {
+			$("#addV").click(function() {
 				var newDisplayname = $("#displayName").val();
 				var newType = $("#select-native-1").val();
 				var newTotalkilometersdirven = $("#totalKilometersDriven").val();
@@ -258,7 +284,7 @@
 				})
 			}
 			
-			// Code for Servicelogs	
+			// Code for listing Servicelogs	
 			$("#logs").on("swiperight", function() {
 				$.mobile.changePage("#vehicleInfo"); 
 			});
@@ -295,7 +321,35 @@
 						})
 					});
 				})
-			}	
+			}
+            
+            $("#addNew").click(function() {
+                $.mobile.changePage("#addServicelog"); 
+            });
+            
+            // Code for adding a new servicelog
+            $("#addL").click(function() {
+				addServicelog()
+			});
+            
+            function addServicelog() {
+                var logurl = "http://nikokaartinen.com:8080/vm-0.0.1-SNAPSHOT/vehicles/" + localStorage.getItem('_selectedVehicleId'); 
+                var newDate = $("#date").val();
+				var newEntry = $("#entry").val();
+                console.log(logurl);
+                $.ajax({
+					url: "http://nikokaartinen.com:8080/vm-0.0.1-SNAPSHOT/servicelogs",
+					type: "POST",
+					data: JSON.stringify ({date: newDate, entry: newEntry, vehicle: logurl}),
+					contentType: "application/json",
+					dataType: "json",
+				}).done(function(data) {
+				// Empty the input fields on #addServicelog
+					$("#date").val(null);
+					$("#entry").val(null);
+					$.mobile.changePage("#logs");
+				})
+			}
 
 			$(document).on("pagecreate", function() {
 				$(document).on("pagecontainershow", function(){
