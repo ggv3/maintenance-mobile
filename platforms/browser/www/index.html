@@ -78,7 +78,7 @@
 					</select>		
 					<label for="totalKilometersDriven">Driven kilometers:</label>
 					<input type="text" name="totalKilometersDriven" id="totalKilometersDriven" data-theme="a">			
-					<label for="latestInspectionDate">Latest inspection date:</label>
+					<label for="latestInspectionDate">Next inspection date:</label>
 					<input type="text" name="latestInspectionDate" id="latestInspectionDate" data-role="datebox" data-options='{"mode":"calbox", "overrideDateFormat":"%Y-%m-%d"}'>								
 					<label for="lastInspectionDate">Last inspection date:</label>
 					<input type="text" name="lastInspectionDate" id="lastInspectionDate" data-role="datebox" data-options='{"mode":"calbox", "overrideDateFormat":"%Y-%m-%d"}'>					
@@ -246,7 +246,6 @@
 				// Get chosen vehicle id
 				var selectedVehicleId = localStorage.getItem('_selectedVehicleId');
 				var vehicleUrl = "http://nikokaartinen.com:8080/vm-0.0.1-SNAPSHOT/vehicles/" + selectedVehicleId;
-				console.log(vehicleUrl);
 				$.ajax({
 					url: vehicleUrl,
 					datatype: "json",
@@ -273,7 +272,6 @@
 			})
 			
 			function deleteUserVehicle() {
-				console.log(vehicle.id);
 				$.ajax({
 					url: "http://nikokaartinen.com:8080/vm-0.0.1-SNAPSHOT/vehicles/" + vehicle.id,
 					type: "DELETE",
@@ -294,8 +292,7 @@
 			}); 
 
 			function fetchVehiclesServicelogs() {            
-				var selectedVehicleId = localStorage.getItem('_selectedVehicleId');
-				console.log(selectedVehicleId);  
+				var selectedVehicleId = localStorage.getItem('_selectedVehicleId'); 
 				var logurl = "http://nikokaartinen.com:8080/vm-0.0.1-SNAPSHOT/vehicles/" + selectedVehicleId + "/servicelog";
 				$.ajax({
 					url: logurl,
@@ -305,8 +302,6 @@
 					$("#servicelogs").empty();
 					var servicelogs = data._embedded.servicelogs[0];
 					for (i in data._embedded.servicelogs) {
-						console.log(data._embedded.servicelogs[i].date);
-						console.log(data._embedded.servicelogs[i].entry);
 						$("#servicelogs").append("<p>" + data._embedded.servicelogs[i].date + "<b> | </b>" + data._embedded.servicelogs[i].entry + " <button id='#delete' value='"+ data._embedded.servicelogs[i].id +"' data-position-to'window' class='ui-btn ui-btn-b ui-btn-inline ui-icon-delete ui-btn-icon-notext ui-corner-all ui-shadow ui-nodisc-icon ui-mini'></button></p>");
 					}
 					$(":button").click(function() {
@@ -336,7 +331,6 @@
                 var logurl = "http://nikokaartinen.com:8080/vm-0.0.1-SNAPSHOT/vehicles/" + localStorage.getItem('_selectedVehicleId'); 
                 var newDate = $("#date").val();
 				var newEntry = $("#entry").val();
-                console.log(logurl);
                 $.ajax({
 					url: "http://nikokaartinen.com:8080/vm-0.0.1-SNAPSHOT/servicelogs",
 					type: "POST",
